@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Pool from "./components/Pool";
+import { promptForUpdate } from "./dbPool/modal";
+import { alertPrompt } from "./components/permissionPrompt/PermissionPromp";
 
 function App() {
+  const setPrompt = async () => {
+    console.log("calling prompt");
+    // const res = await promptForUpdate();
+
+    const res = await alertPrompt()
+
+    console.log("res", res);
+  };
+  // console.log("prompt")
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Pool />
+
+      <button onClick={setPrompt}>Prompt</button>
     </div>
   );
 }

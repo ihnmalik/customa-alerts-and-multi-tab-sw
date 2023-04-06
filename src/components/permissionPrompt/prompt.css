@@ -1,0 +1,37 @@
+.prompt-for-update {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .prompt-for-update-content {
+    background-color: white;
+    border-radius: 4px;
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .prompt-for-update-buttons {
+    margin-top: 16px;
+  }
+  
+  .prompt-for-update button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 4px;
+  }
+  
