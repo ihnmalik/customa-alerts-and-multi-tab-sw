@@ -5,6 +5,8 @@ import Pool from "./components/Pool";
 import { promptForUpdate } from "./dbPool/modal";
 import { alertPrompt } from "./components/permissionPrompt/PermissionPromp";
 
+// import './swRegistration'
+
 function App() {
   const setPrompt = async () => {
     console.log("calling prompt");
@@ -19,9 +21,10 @@ function App() {
     <div>
       <Pool />
 
-      <button onClick={setPrompt}>Prompt</button>
+      <button onClick={setPrompt}>prompt main</button>
     </div>
   );
 }
+
 
 export default App;
