@@ -11,6 +11,7 @@ import {
 } from "workbox-routing";
 import {Queue} from 'workbox-background-sync';
 import { NetworkFirst, StaleWhileRevalidate } from "workbox-strategies";
+import Dexie from 'dexie'
 
 // Creating a queue for saving failed network request that'll be automatically handled by service worker on network restored
 // BackgroundSyncPlugin: the failed requests are stored in IndexedDB
@@ -56,11 +57,72 @@ registerRoute(filesRoute);
 
 
 // Service worker message event 
-self.addEventListener("message", (event) => {
+self.addEventListener("message", async (event: any) => {
+  console.log("event", event)
+  console.log("message", event?.data.message)
+
+  console.log('event-type',event.data.type)
+  switch(event.data.type) {
+    case "SAVE_SHEET_WAL": {
+      saveSheetWAL(event.data.sheetId, event.source.id, event.data.message)
+      break;
+    }
+  }
+
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
+
+  // switch(event.data.type) {
+  //   case "INITIATE_WINDOW":
+  //     console.log("initiaing window")
+  //     postWindowId(event.source.id)
+  //     break;
+  // }
 });
+
+const saveSheetWAL = async (sheetId: string, clientId: string, message: string) => {
+  const activeWAL = 1
+      const db = new Dexie(`${sheetId}/${clientId}/${activeWAL}`)
+      db.version(1).stores({
+        walInfo: "++",
+        store: '++'
+      })
+
+      await db.open()
+
+      await db.table('store').put(message)
+}
+
+// self.addEventListener('activate', async (event: any) => {
+//     console.log("activate")
+//   // postWindowId()
+
+//   console.log("event", event, event.source.id)
+
+// });
+
+
+// #region set window id
+// const postWindowId = async (clientId: string) => {
+//   // Calculate the total number of windows currently open for your app
+ 
+  
+//   const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+//   const numWindows = windows.length;
+
+//   const client = await self.clients.get(clientId);
+
+//   console.log("client", client)
+//   if (!client) return;
+//       // Send a message to the client.
+//       client.postMessage({ type: 'Window_Id',  clientId});
+  
+//   // Broadcast the total number of windows to all other windows
+//   // const channel = new BroadcastChannel('multi-tab-support');
+//   // channel.postMessage({ type: 'numWindows', numWindows });
+// }
+// #endregion set window id
 
 // #region fetch 
 self.addEventListener('fetch', (event) => {

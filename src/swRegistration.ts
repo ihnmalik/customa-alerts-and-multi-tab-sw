@@ -8,15 +8,15 @@ const promptForUpdate = async () => {
 };
 
 if ("serviceWorker" in navigator) {
-  const wb = new Workbox("service-worker.js");
+  const wb = new Workbox("./service-worker.js");
 
   let registration;
 
   wb.addEventListener("installed", () => {
-    console.log("installed");
+    console.log("service-worker installed");
   });
 
-  const showSkipWaitingPrompt = async (event) => {
+  const showSkipWaitingPrompt = async (event: WorkboxLifecycleWaitingEvent) => {
     // WorkboxLifecycleWaitingEvent
     // Assuming the user accepted the update, set up a listener
     // that will reload the page as soon as the previously waiting
